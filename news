@@ -1,0 +1,27 @@
+import json
+import requests
+
+
+def speak(str):
+    from win32com.client import Dispatch
+    speak = Dispatch("SAPI.SpVoice")
+    speak.Speak(str)
+
+if __name__ == '__main__':
+
+    speak("News for today... Lets begin")
+    r = requests.get(
+        "https://newsapi.org/v2/top-headlines?sources=the-times-of-india&apiKey=18271f9ab0fd4e86a503f5c200fa424e")
+    p = r.text
+
+
+    jscomp = json.loads(p)
+    print(jscomp["articles"])
+    arts = jscomp['articles']
+
+    for articles in arts:
+        print(articles['title'])
+        speak(articles['title'])
+        speak("moving on to the next news... Listen Carefully")
+
+speak("Thanks for listening to the news")
